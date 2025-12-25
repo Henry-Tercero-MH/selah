@@ -107,12 +107,24 @@ const Dashboard = () => {
     <div className="p-4 sm:p-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2" style={{ color: 'var(--color-text-primary)' }}>
-          📊 Dashboard de Ventas
-        </h1>
-        <p className="text-sm sm:text-base text-gray-600">
-          {stats.period} - Análisis de rendimiento
-        </p>
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2" style={{ color: 'var(--color-text-primary)' }}>
+              📊 Dashboard de Ventas
+            </h1>
+            <p className="text-sm sm:text-base text-gray-600">
+              {stats.period} - Análisis de rendimiento
+            </p>
+          </div>
+          {usingDemoData && (
+            <div className="bg-yellow-50 border-l-4 border-yellow-400 px-4 py-2 rounded">
+              <p className="text-xs sm:text-sm text-yellow-800 flex items-center gap-2">
+                <FaDatabase className="flex-shrink-0" />
+                <span>Mostrando datos de demostración</span>
+              </p>
+            </div>
+          )}
+        </div>
 
         {/* Selector de período */}
         <div className="flex flex-wrap gap-2 mt-4">
