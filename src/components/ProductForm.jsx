@@ -105,20 +105,24 @@ const ProductForm = ({ product, onSave, onCancel }) => {
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
-        className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full my-8"
+        className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full my-8 relative"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Botón de cerrar flotante (muy visible) */}
+        <button
+          onClick={onCancel}
+          className="absolute -top-3 -right-3 w-10 h-10 flex items-center justify-center rounded-full bg-red-500 hover:bg-red-600 text-white shadow-2xl transition-all hover:scale-110 z-10"
+          title="Cerrar formulario"
+        >
+          <FaTimes size={18} />
+        </button>
+
         {/* Header */}
-        <div className="bg-primary text-white p-6 flex items-center justify-between rounded-t-2xl">
-          <h2 className="text-2xl font-bold">
+        <div className="bg-primary text-white p-4 sm:p-6 flex items-center justify-between rounded-t-2xl">
+          <h2 className="text-xl sm:text-2xl font-bold">
             {product ? 'Editar Producto' : 'Nuevo Producto'}
           </h2>
-          <button
-            onClick={onCancel}
-            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors"
-          >
-            <FaTimes size={20} />
-          </button>
+          <div className="w-10"></div> {/* Spacer para balance visual */}
         </div>
 
         {/* Form */}
