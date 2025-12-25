@@ -62,18 +62,13 @@ const Dashboard = () => {
       // 1. Intentar cargar pedidos desde Google Sheets
       const orders = await getOrders();
 
-      // 2. Si no hay pedidos, generar datos de muestra
-      if (!orders || orders.length === 0) {
-        if (!hasSampleData()) {
-          const result = generateSampleOrders();
-          setUsingDemoData(true);
-          console.log(`✅ Datos de demo generados: ${result.count} pedidos, Q${result.totalRevenue.toFixed(2)} en ventas`);
-        } else {
-          setUsingDemoData(false);
-        }
-      } else {
-        setUsingDemoData(false);
+      // 2. No generar datos de muestra - solo usar datos reales
+      if (orders && orders.length > 0) {
         console.log(`📊 Dashboard cargado con ${orders.length} pedidos reales`);
+        setUsingDemoData(false);
+      } else {
+        console.log('📊 No hay pedidos todavía');
+        setUsingDemoData(false);
       }
 
       // 3. Cargar todas las métricas
