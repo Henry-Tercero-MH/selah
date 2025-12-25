@@ -14,7 +14,7 @@ const AdminPanel = ({ products, onProductsChange, onClose }) => {
 
   // Password hasheada (no visible en código)
   // Contraseña real: selah2024
-  const ADMIN_PASSWORD_HASH = '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b';
+  const ADMIN_PASSWORD_HASH = '3f772f1087dd12d870591ec03bec3eb330b2767f5883dec4749fbb5a1deb3248';
 
   useEffect(() => {
     setLocalProducts(products);
