@@ -217,7 +217,7 @@ const AdminPanel = ({ products, onProductsChange, onClose }) => {
           className="max-w-7xl mx-auto bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden"
         >
           {/* Header */}
-          <div className="bg-primary text-white p-4 sm:p-6">
+          <div className="bg-gray-800 text-white p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">Panel de Administración</h2>
@@ -226,14 +226,14 @@ const AdminPanel = ({ products, onProductsChange, onClose }) => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-xs sm:text-sm"
+                  className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white text-primary hover:bg-gray-100 rounded-lg transition-colors text-xs sm:text-sm font-medium shadow-md"
                 >
                   <FaSignOutAlt />
                   <span className="hidden sm:inline">Cerrar sesión</span>
                 </button>
                 <button
                   onClick={onClose}
-                  className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
+                  className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors shadow-md"
                   title="Cerrar panel"
                 >
                   <FaTimes size={18} />
@@ -245,10 +245,10 @@ const AdminPanel = ({ products, onProductsChange, onClose }) => {
             <div className="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
               <button
                 onClick={() => setActiveTab('dashboard')}
-                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm ${
+                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm shadow-md ${
                   activeTab === 'dashboard'
                     ? 'bg-white text-primary font-bold'
-                    : 'bg-white/20 hover:bg-white/30'
+                    : 'bg-white/90 text-primary/80 hover:bg-white hover:text-primary'
                 }`}
               >
                 <FaChartBar />
@@ -256,10 +256,10 @@ const AdminPanel = ({ products, onProductsChange, onClose }) => {
               </button>
               <button
                 onClick={() => setActiveTab('products')}
-                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm ${
+                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm shadow-md ${
                   activeTab === 'products'
                     ? 'bg-white text-primary font-bold'
-                    : 'bg-white/20 hover:bg-white/30'
+                    : 'bg-white/90 text-primary/80 hover:bg-white hover:text-primary'
                 }`}
               >
                 <FaBox />
@@ -267,10 +267,10 @@ const AdminPanel = ({ products, onProductsChange, onClose }) => {
               </button>
               <button
                 onClick={() => setActiveTab('orders')}
-                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm ${
+                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm shadow-md ${
                   activeTab === 'orders'
                     ? 'bg-white text-primary font-bold'
-                    : 'bg-white/20 hover:bg-white/30'
+                    : 'bg-white/90 text-primary/80 hover:bg-white hover:text-primary'
                 }`}
               >
                 <FaShoppingBag />
