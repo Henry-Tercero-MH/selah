@@ -26,6 +26,7 @@ import {
 } from 'recharts';
 import StatCard from './StatCard';
 import {
+  getOrders,
   getGeneralStats,
   getTopProducts,
   getSalesByCategory,
@@ -50,47 +51,67 @@ const Dashboard = () => {
   const [usingDemoData, setUsingDemoData] = useState(false);
 
   useEffect(() => {
-    // Generar datos de muestra si no existen
-    if (!hasSampleData()) {
-      const result = generateSampleOrders();
-      setUsingDemoData(true);
-      console.log(`✅ Datos de demo generados: ${result.count} pedidos, Q${result.totalRevenue.toFixed(2)} en ventas`);
-    }
     loadDashboardData();
   }, [period]);
 
-  const loadDashboardData = () => {
-    // Estadísticas generales
-    const generalStats = getGeneralStats(period);
-    setStats(generalStats);
+  const loadDashboardData = async () => {
+    try {
+      // 1. Intentar cargar pedidos desde Google Sheets
+      const orders = await getOrders();
 
-    // Productos más vendidos
-    const top = getTopProducts(5, period);
-    setTopProducts(top);
+      // 2. Si no hay pedidos, generar datos de muestra
+      if (!orders || orders.length === 0) {
+        if (!hasSampleData()) {
+          const result = generateSampleOrders();
+          setUsingDemoData(true);
+          console.log(`✅ Datos de demo generados: ${result.count} pedidos, Q${result.totalRevenue.toFixed(2)} en ventas`);
+        } else {
+          setUsingDemoData(false);
+        }
+      } else {
+        setUsingDemoData(false);
+        console.log(`📊 Dashboard cargado con ${orders.length} pedidos reales`);
+      }
 
-    // Ventas por categoría
-    const categories = getSalesByCategory(period);
-    setCategorySales(categories);
+      // 3. Cargar todas las métricas
+      // Estadísticas generales
+      const generalStats = getGeneralStats(period);
+      setStats(generalStats);
 
-    // Ventas diarias
-    const daily = getSalesByDay(period);
-    setDailySales(daily);
+      // Productos más vendidos
+      const top = getTopProducts(5, period);
+      setTopProducts(top);
 
-    // Ventas por hora
-    const hourly = getOrdersByHour(period);
-    setHourlySales(hourly);
+      // Ventas por categoría
+      const categories = getSalesByCategory(period);
+      setCategorySales(categories);
 
-    // Hora pico
-    const peak = getPeakHour(period);
-    setPeakHour(peak);
+      // Ventas diarias
+      const daily = getSalesByDay(period);
+      setDailySales(daily);
 
-    // Día pico
-    const dayPeak = getPeakDay(period);
-    setPeakDay(dayPeak);
+      // Ventas por hora
+      const hourly = getOrdersByHour(period);
+      setHourlySales(hourly);
 
-    // Comparación con período anterior
-    const comp = compareWithPreviousPeriod(period);
-    setComparison(comp);
+      // Hora pico
+      const peak = getPeakHour(period);
+      setPeakHour(peak);
+
+      // Día pico
+      const dayPeak = getPeakDay(period);
+      setPeakDay(dayPeak);
+
+      // Comparación con período anterior
+      const comp = compareWithPreviousPeriod(period);
+      setComparison(comp);
+
+    } catch (error) {
+      console.error('❌ Error al cargar dashboard:', error);
+      // En caso de error, intentar cargar con datos locales
+      const generalStats = getGeneralStats(period);
+      setStats(generalStats);
+    }
   };
 
   const COLORS = ['#5D4037', '#8D6E63', '#A1887F', '#BCAAA4', '#D7CCC8'];

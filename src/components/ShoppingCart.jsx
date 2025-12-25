@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
+import { FaTimes } from 'react-icons/fa';
+import { saveOrder } from '../services/analyticsService';
+import { saveOrderToSheets } from '../services/googleSheetsOrdersService';
 
 const ShoppingCart = ({ cart, onRemoveItem, onUpdateQuantity, onClearCart }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isProcessingOrder, setIsProcessingOrder] = useState(false);
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cart.reduce((sum, item) => sum + item.totalPrice, 0);
@@ -13,6 +17,37 @@ const ShoppingCart = ({ cart, onRemoveItem, onUpdateQuantity, onClearCart }) => 
       setTimeout(() => setIsAnimating(false), 500);
     }
   }, [cart.length]);
+
+  const handleCheckout = async () => {
+    if (cart.length === 0) return;
+
+    setIsProcessingOrder(true);
+
+    try {
+      // 1. Guardar localmente primero (siempre funciona)
+      const order = saveOrder(cart, totalPrice);
+      console.log('✅ Pedido guardado localmente:', order.id);
+
+      // 2. Intentar sincronizar con Google Sheets
+      try {
+        await saveOrderToSheets(order);
+        console.log('✅ Pedido sincronizado con Google Sheets');
+      } catch (sheetError) {
+        console.warn('⚠️ No se pudo sincronizar con Sheets, pero el pedido se guardó localmente:', sheetError);
+      }
+
+      // 3. Mostrar éxito y limpiar carrito
+      alert('¡Pedido realizado exitosamente! 🎉\n\nGracias por tu compra en SELAH.');
+      onClearCart();
+      setIsOpen(false);
+
+    } catch (error) {
+      console.error('❌ Error al procesar pedido:', error);
+      alert('Hubo un error al procesar tu pedido. Por favor intenta de nuevo.');
+    } finally {
+      setIsProcessingOrder(false);
+    }
+  };
 
   return (
     <>
@@ -58,10 +93,10 @@ const ShoppingCart = ({ cart, onRemoveItem, onUpdateQuantity, onClearCart }) => 
             </h2>
             <button
               onClick={() => setIsOpen(false)}
-              className="w-8 h-8 rounded-full flex items-center justify-center transition-korean hover:scale-110"
-              style={{ backgroundColor: 'var(--color-bg-card)' }}
+              className="w-10 h-10 rounded-full flex items-center justify-center bg-red-500 hover:bg-red-600 text-white shadow-xl transition-all hover:scale-110"
+              title="Cerrar carrito"
             >
-              ✕
+              <FaTimes size={18} />
             </button>
           </div>
           <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
@@ -107,8 +142,7 @@ const ShoppingCart = ({ cart, onRemoveItem, onUpdateQuantity, onClearCart }) => 
                     <div className="flex items-center gap-2 mt-2">
                       <button
                         onClick={() => onUpdateQuantity(index, Math.max(1, item.quantity - 1))}
-                        className="w-6 h-6 rounded-full flex items-center justify-center text-sm transition-korean hover:scale-110"
-                        style={{ backgroundColor: 'var(--color-primary-light)' }}
+                        className="w-6 h-6 rounded-full flex items-center justify-center text-sm transition-korean hover:scale-110 bg-gray-200 hover:bg-gray-300 text-gray-800"
                       >
                         −
                       </button>
@@ -117,8 +151,7 @@ const ShoppingCart = ({ cart, onRemoveItem, onUpdateQuantity, onClearCart }) => 
                       </span>
                       <button
                         onClick={() => onUpdateQuantity(index, item.quantity + 1)}
-                        className="w-6 h-6 rounded-full flex items-center justify-center text-sm transition-korean hover:scale-110"
-                        style={{ backgroundColor: 'var(--color-primary-light)' }}
+                        className="w-6 h-6 rounded-full flex items-center justify-center text-sm transition-korean hover:scale-110 bg-gray-200 hover:bg-gray-300 text-gray-800"
                       >
                         +
                       </button>
@@ -156,10 +189,11 @@ const ShoppingCart = ({ cart, onRemoveItem, onUpdateQuantity, onClearCart }) => 
             </div>
 
             <button
-              onClick={() => alert('Función de checkout próximamente!')}
-              className="w-full btn-korean btn-primary py-3 text-lg font-bold"
+              onClick={handleCheckout}
+              disabled={isProcessingOrder}
+              className="w-full btn-korean btn-primary py-3 text-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Realizar Pedido 🚀
+              {isProcessingOrder ? 'Procesando... ⏳' : 'Realizar Pedido 🚀'}
             </button>
 
             <button

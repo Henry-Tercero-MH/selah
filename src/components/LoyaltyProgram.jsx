@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { FaTimes } from 'react-icons/fa';
 
 const LoyaltyProgram = () => {
   const [points, setPoints] = useState(0);
@@ -48,10 +49,19 @@ const LoyaltyProgram = () => {
           onClick={() => setIsOpen(false)}
         >
           <div
-            className="bg-white rounded-3xl p-8 max-w-md w-full"
+            className="bg-white rounded-3xl p-8 max-w-md w-full relative"
             onClick={(e) => e.stopPropagation()}
             style={{ backgroundColor: 'var(--color-bg-card)' }}
           >
+            {/* Botón de cerrar flotante */}
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute -top-3 -right-3 w-10 h-10 flex items-center justify-center rounded-full bg-red-500 hover:bg-red-600 text-white shadow-2xl transition-all hover:scale-110 z-10"
+              title="Cerrar"
+            >
+              <FaTimes size={18} />
+            </button>
+
             <div className="text-center mb-6">
               <div className="text-6xl mb-4">⭐</div>
               <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--color-primary)' }}>
@@ -118,14 +128,6 @@ const LoyaltyProgram = () => {
               className="w-full btn-korean btn-primary py-3"
             >
               Simular compra (+10 pts)
-            </button>
-
-            <button
-              onClick={() => setIsOpen(false)}
-              className="w-full mt-3 py-2 text-sm"
-              style={{ color: 'var(--color-text-secondary)' }}
-            >
-              Cerrar
             </button>
           </div>
         </div>

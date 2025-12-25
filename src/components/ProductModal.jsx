@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { FaTimes } from 'react-icons/fa';
 import SocialShare from './SocialShare';
 
 const ProductModal = ({ item, isOpen, onClose, onAddToCart }) => {
@@ -68,10 +69,10 @@ const ProductModal = ({ item, isOpen, onClose, onAddToCart }) => {
         >
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-korean hover:scale-110 shadow-md"
-            style={{ backgroundColor: 'var(--color-bg-card)' }}
+            className="absolute top-2 right-2 w-10 h-10 rounded-full flex items-center justify-center bg-red-500 hover:bg-red-600 text-white shadow-xl transition-all hover:scale-110"
+            title="Cerrar"
           >
-            ✕
+            <FaTimes size={18} />
           </button>
 
           <div className="text-center">
@@ -188,8 +189,7 @@ const ProductModal = ({ item, isOpen, onClose, onAddToCart }) => {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold transition-korean hover:scale-110 shadow-md"
-                style={{ backgroundColor: 'var(--color-primary-light)' }}
+                className="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold transition-korean hover:scale-110 shadow-md bg-gray-200 hover:bg-gray-300 text-gray-800"
               >
                 −
               </button>
@@ -198,8 +198,7 @@ const ProductModal = ({ item, isOpen, onClose, onAddToCart }) => {
               </span>
               <button
                 onClick={() => setQuantity(quantity + 1)}
-                className="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold transition-korean hover:scale-110 shadow-md"
-                style={{ backgroundColor: 'var(--color-primary-light)' }}
+                className="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold transition-korean hover:scale-110 shadow-md bg-gray-200 hover:bg-gray-300 text-gray-800"
               >
                 +
               </button>

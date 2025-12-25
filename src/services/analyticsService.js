@@ -5,6 +5,7 @@
 
 import { format, startOfDay, endOfDay, subDays, isWithinInterval, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { getOrdersFromSheets } from './googleSheetsOrdersService';
 
 const ORDERS_KEY = 'selahOrders';
 const ANALYTICS_KEY = 'selahAnalytics';
@@ -13,7 +14,7 @@ const ANALYTICS_KEY = 'selahAnalytics';
  * Guardar un nuevo pedido
  */
 export const saveOrder = (cart, total) => {
-  const orders = getOrders();
+  const orders = getOrdersSync(); // Usar versión sincrónica
 
   const newOrder = {
     id: generateOrderId(),
@@ -36,8 +37,32 @@ export const saveOrder = (cart, total) => {
 
 /**
  * Obtener todos los pedidos
+ * Intenta cargar desde Google Sheets primero, luego localStorage
  */
-export const getOrders = () => {
+export const getOrders = async () => {
+  try {
+    // Intentar cargar desde Google Sheets
+    const sheetsOrders = await getOrdersFromSheets();
+
+    if (sheetsOrders && sheetsOrders.length > 0) {
+      // Actualizar localStorage con datos de Sheets (sincronización)
+      localStorage.setItem(ORDERS_KEY, JSON.stringify(sheetsOrders));
+      console.log(`✅ ${sheetsOrders.length} pedidos cargados desde Google Sheets`);
+      return sheetsOrders;
+    }
+  } catch (error) {
+    console.warn('⚠️ Error al cargar desde Sheets, usando localStorage:', error);
+  }
+
+  // Fallback a localStorage
+  const orders = localStorage.getItem(ORDERS_KEY);
+  return orders ? JSON.parse(orders) : [];
+};
+
+/**
+ * Obtener todos los pedidos (versión sincrónica para compatibilidad)
+ */
+export const getOrdersSync = () => {
   const orders = localStorage.getItem(ORDERS_KEY);
   return orders ? JSON.parse(orders) : [];
 };
@@ -46,7 +71,7 @@ export const getOrders = () => {
  * Obtener pedidos dentro de un rango de fechas
  */
 export const getOrdersByDateRange = (startDate, endDate) => {
-  const orders = getOrders();
+  const orders = getOrdersSync();
 
   return orders.filter(order => {
     const orderDate = parseISO(order.timestamp);
@@ -343,7 +368,7 @@ const generateOrderId = () => {
  * Limpiar datos antiguos (mantener solo últimos 90 días)
  */
 export const cleanOldData = (daysToKeep = 90) => {
-  const orders = getOrders();
+  const orders = getOrdersSync();
   const cutoffDate = subDays(new Date(), daysToKeep);
 
   const filteredOrders = orders.filter(order => {
@@ -363,7 +388,7 @@ export const cleanOldData = (daysToKeep = 90) => {
  * Exportar datos para backup
  */
 export const exportData = () => {
-  const orders = getOrders();
+  const orders = getOrdersSync();
   const stats = getGeneralStats(90);
 
   return {
