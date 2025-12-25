@@ -226,14 +226,14 @@ const AdminPanel = ({ products, onProductsChange, onClose }) => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white text-primary hover:bg-gray-100 rounded-lg transition-colors text-xs sm:text-sm font-medium shadow-md"
+                  className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-cyan-500 text-white hover:bg-cyan-600 rounded-lg transition-colors text-xs sm:text-sm font-medium shadow-md"
                 >
                   <FaSignOutAlt />
                   <span className="hidden sm:inline">Cerrar sesión</span>
                 </button>
                 <button
                   onClick={onClose}
-                  className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors shadow-md"
+                  className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg transition-colors shadow-md"
                   title="Cerrar panel"
                 >
                   <FaTimes size={18} />
@@ -247,8 +247,8 @@ const AdminPanel = ({ products, onProductsChange, onClose }) => {
                 onClick={() => setActiveTab('dashboard')}
                 className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm shadow-md ${
                   activeTab === 'dashboard'
-                    ? 'bg-white text-primary font-bold'
-                    : 'bg-white/90 text-primary/80 hover:bg-white hover:text-primary'
+                    ? 'bg-cyan-500 text-white font-bold'
+                    : 'bg-cyan-400 text-white hover:bg-cyan-500'
                 }`}
               >
                 <FaChartBar />
@@ -258,8 +258,8 @@ const AdminPanel = ({ products, onProductsChange, onClose }) => {
                 onClick={() => setActiveTab('products')}
                 className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm shadow-md ${
                   activeTab === 'products'
-                    ? 'bg-white text-primary font-bold'
-                    : 'bg-white/90 text-primary/80 hover:bg-white hover:text-primary'
+                    ? 'bg-cyan-500 text-white font-bold'
+                    : 'bg-cyan-400 text-white hover:bg-cyan-500'
                 }`}
               >
                 <FaBox />
@@ -269,8 +269,8 @@ const AdminPanel = ({ products, onProductsChange, onClose }) => {
                 onClick={() => setActiveTab('orders')}
                 className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm shadow-md ${
                   activeTab === 'orders'
-                    ? 'bg-white text-primary font-bold'
-                    : 'bg-white/90 text-primary/80 hover:bg-white hover:text-primary'
+                    ? 'bg-cyan-500 text-white font-bold'
+                    : 'bg-cyan-400 text-white hover:bg-cyan-500'
                 }`}
               >
                 <FaShoppingBag />

@@ -3,7 +3,7 @@
  * Conecta el Dashboard con datos reales en lugar de localStorage
  */
 
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUvsujaFKRy6WfRo-fNkDPT9_2hH3qrGIb6HzEqG9Jk6ZCRMGfEXw_cKNzT9UMDHv7rg/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUhd_DywyInBKdAstFvgkpnhSpr-tS6hKiPhqJrjDhgH6jDiKjrblGci9m-IgL3PElBA/exec';
 
 /**
  * Guardar pedido en Google Sheets

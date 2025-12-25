@@ -37,6 +37,8 @@ import {
   compareWithPreviousPeriod
 } from '../services/analyticsService';
 import { generateSampleOrders, hasSampleData } from '../utils/generateSampleData';
+import { saveOrderToSheets } from '../services/googleSheetsOrdersService';
+import { saveOrder } from '../services/analyticsService';
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
@@ -49,6 +51,7 @@ const Dashboard = () => {
   const [comparison, setComparison] = useState(null);
   const [period, setPeriod] = useState(30);
   const [usingDemoData, setUsingDemoData] = useState(false);
+  const [isTesting, setIsTesting] = useState(false);
 
   useEffect(() => {
     loadDashboardData();
@@ -116,6 +119,54 @@ const Dashboard = () => {
 
   const COLORS = ['#5D4037', '#8D6E63', '#A1887F', '#BCAAA4', '#D7CCC8'];
 
+  // Función para probar conexión con Google Sheets
+  const testGoogleSheetsConnection = async () => {
+    setIsTesting(true);
+
+    try {
+      // Crear pedido de prueba
+      const testOrder = {
+        id: `TEST-${Date.now()}`,
+        items: [
+          {
+            id: 1,
+            name: 'Licuado de Prueba',
+            category: 'Licuados',
+            quantity: 1,
+            selectedSize: { name: 'Mediano', price: 25 },
+            totalPrice: 25,
+            color: '#5D4037',
+            icon: '🥤'
+          }
+        ],
+        total: 25,
+        itemCount: 1,
+        timestamp: new Date().toISOString(),
+        date: new Date().toISOString().split('T')[0],
+        time: new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        hour: new Date().getHours(),
+        dayOfWeek: new Date().getDay(),
+        status: 'test'
+      };
+
+      console.log('🧪 Enviando pedido de prueba a Google Sheets...', testOrder);
+
+      // Intentar guardar en Sheets
+      await saveOrderToSheets(testOrder);
+
+      alert('✅ PRUEBA EXITOSA!\n\nEl pedido de prueba se envió a Google Sheets.\n\nRevisa tu Google Sheet:\n1. Ve a la pestaña "Pedidos"\n2. Busca el pedido con ID: ' + testOrder.id + '\n\nSi lo ves, la conexión funciona correctamente!');
+
+      // Recargar datos
+      loadDashboardData();
+
+    } catch (error) {
+      console.error('❌ Error en prueba:', error);
+      alert('❌ ERROR EN LA PRUEBA\n\nNo se pudo conectar con Google Sheets.\n\nPosibles causas:\n1. URL del Apps Script incorrecta\n2. Apps Script no desplegado\n3. Permisos incorrectos\n\nRevisa la consola del navegador (F12) para más detalles.');
+    } finally {
+      setIsTesting(false);
+    }
+  };
+
   if (!stats) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -137,14 +188,36 @@ const Dashboard = () => {
               {stats.period} - Análisis de rendimiento
             </p>
           </div>
-          {usingDemoData && (
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 px-4 py-2 rounded">
-              <p className="text-xs sm:text-sm text-yellow-800 flex items-center gap-2">
-                <FaDatabase className="flex-shrink-0" />
-                <span>Mostrando datos de demostración</span>
-              </p>
-            </div>
-          )}
+          <div className="flex flex-col sm:flex-row gap-2">
+            {usingDemoData && (
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 px-4 py-2 rounded">
+                <p className="text-xs sm:text-sm text-yellow-800 flex items-center gap-2">
+                  <FaDatabase className="flex-shrink-0" />
+                  <span>Mostrando datos de demostración</span>
+                </p>
+              </div>
+            )}
+
+            {/* Botón de prueba de Google Sheets */}
+            <button
+              onClick={testGoogleSheetsConnection}
+              disabled={isTesting}
+              className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg text-xs sm:text-sm font-medium shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap"
+              title="Probar conexión con Google Sheets"
+            >
+              {isTesting ? (
+                <>
+                  <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
+                  <span>Probando...</span>
+                </>
+              ) : (
+                <>
+                  <FaDatabase />
+                  <span>Probar Google Sheets</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Selector de período */}

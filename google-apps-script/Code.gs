@@ -78,20 +78,27 @@ function doGet(e) {
 
     if (action === 'getOrders') {
       const orders = getAllOrders();
-      return ContentService
-        .createTextOutput(JSON.stringify({ success: true, orders: orders }))
-        .setMimeType(ContentService.MimeType.JSON);
+
+      // Crear respuesta con headers CORS
+      const output = ContentService.createTextOutput(JSON.stringify({
+        success: true,
+        orders: orders
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+      return output;
     }
 
     // Respuesta por defecto
-    return ContentService
-      .createTextOutput(JSON.stringify({
-        success: true,
-        message: 'Google Apps Script funcionando correctamente',
-        sheetId: SHEET_ID,
-        sheets: [PRODUCTS_SHEET, ORDERS_SHEET]
-      }))
-      .setMimeType(ContentService.MimeType.JSON);
+    const output = ContentService.createTextOutput(JSON.stringify({
+      success: true,
+      message: 'Google Apps Script funcionando correctamente',
+      sheetId: SHEET_ID,
+      sheets: [PRODUCTS_SHEET, ORDERS_SHEET]
+    }))
+    .setMimeType(ContentService.MimeType.JSON);
+
+    return output;
 
   } catch (error) {
     return ContentService
