@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migrar Productos a Google Sheets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #5D4037;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .info {
+            background: #E3F2FD;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196F3;
+        }
+        .warning {
+            background: #FFF3E0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #FF9800;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        .success {
+            background: #C8E6C9;
+            color: #2E7D32;
+            border-left: 4px solid #4CAF50;
+        }
+        .error {
+            background: #FFCDD2;
+            color: #C62828;
+            border-left: 4px solid #F44336;
+        }
+        .loading {
+            background: #FFF9C4;
+            color: #F57F17;
+            border-left: 4px solid #FFEB3B;
+        }
+        .product-count {
+            font-size: 48px;
+            font-weight: bold;
+            color: #5D4037;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .progress {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 20px;
+            display: none;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Migración de Productos</h1>
+        <p class="subtitle">SELAH Cafetería - De Local a Google Sheets</p>
+
+        <div class="info">
+            <strong>📋 Productos a migrar:</strong>
+            <div class="product-count">14</div>
+            <ul style="margin: 10px 0;">
+                <li>7 Licuados (Fresa, Papaya, Melón, Piña, Banano, Frapuccino, Mixtos)</li>
+                <li>2 Cafés (Café, Café con Leche)</li>
+                <li>4 Comidas (Nachos, Tacos Sencillo, Tacos Dobles, Quesadillas)</li>
+                <li>1 Postre (Crepas)</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Importante:</strong><br>
+            • Este proceso agregará los productos al final de tu Google Sheet<br>
+            • Si ya existen productos en el Sheet, NO los eliminará<br>
+            • Puedes ejecutar esto solo una vez o limpiar el Sheet antes de ejecutar<br>
+            • Asegúrate de tener internet y que el Apps Script esté desplegado
+        </div>
+
+        <button id="migrateBtn" onclick="migrateProducts()">
+            ✨ Iniciar Migración
+        </button>
+
+        <div class="progress" id="progress">
+            <div class="progress-bar" id="progressBar">0%</div>
+        </div>
+
+        <div id="status"></div>
+    </div>
+
+    <script>
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUvsujaFKRy6WfRo-fNkDPT9_2hH3qrGIb6HzEqG9Jk6ZCRMGfEXw_cKNzT9UMDHv7rg/exec';
+
+        const products = [
+            {
+                id: 1,
+                name: "Licuado de Fresa",
+                category: "licuados",
+                price: 15.00,
+                currency: "Q",
+                description: "Delicioso licuado de fresa fresca y cremoso",
+                longDescription: "Preparado con fresas frescas de temporada, leche y un toque de azúcar natural. Rico en vitamina C y antioxidantes.",
+                image: "https://images.unsplash.com/photo-1589733955941-5eeaf752f6dd?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                color: "#D84315",
+                icon: "FaStrawberry",
+                popular: true,
+                calories: 180,
+                prepTime: "5 min",
+                ingredients: ["Fresas frescas", "Leche", "Azúcar", "Hielo"],
+                tags: ["frutal", "cremoso", "vitaminas"],
+                sizes: [{ name: "Regular", price: 15.00 }, { name: "Grande", price: 18.00 }]
+            },
+            {
+                id: 2,
+                name: "Licuado de Papaya",
+                category: "licuados",
+                price: 13.00,
+                currency: "Q",
+                description: "Refrescante licuado de papaya natural",
+                longDescription: "Papaya fresca guatemalteca mezclada con leche y miel. Excelente para la digestión y rico en vitamina A.",
+                image: "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?q=80&w=685&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                color: "#FF6F00",
+                icon: "FaLeaf",
+                popular: false,
+                calories: 150,
+                prepTime: "4 min",
+                ingredients: ["Papaya fresca", "Leche", "Miel", "Hielo"],
+                tags: ["digestivo", "natural", "suave"],
+                sizes: [{ name: "Regular", price: 13.00 }, { name: "Grande", price: 16.00 }]
+            },
+            {
+                id: 3,
+                name: "Licuado de Melón",
+                category: "licuados",
+                price: 13.00,
+                currency: "Q",
+                description: "Suave y dulce licuado de melón",
+                longDescription: "Melón maduro con un toque de limón y menta. Perfecto para hidratarse en días calurosos.",
+                image: "https://images.unsplash.com/photo-1660305461151-fe400e7bbede?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                color: "#7CB342",
+                icon: "FaSeedling",
+                popular: false,
+                calories: 140,
+                prepTime: "4 min",
+                ingredients: ["Melón", "Limón", "Menta", "Hielo"],
+                tags: ["refrescante", "ligero", "hidratante"],
+                sizes: [{ name: "Regular", price: 13.00 }, { name: "Grande", price: 16.00 }]
+            },
+            {
+                id: 4,
+                name: "Licuado de Piña",
+                category: "licuados",
+                price: 13.00,
+                currency: "Q",
+                description: "Tropical y refrescante licuado de piña",
+                longDescription: "Piña tropical guatemalteca con coco rallado y un toque de vainilla. Sabor caribeño irresistible.",
+                image: "https://images.unsplash.com/photo-1666181767084-91e0cd358adf?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                color: "#FFA000",
+                icon: "FaAppleAlt",
+                popular: false,
+                calories: 170,
+                prepTime: "5 min",
+                ingredients: ["Piña fresca", "Coco", "Vainilla", "Hielo"],
+                tags: ["tropical", "exótico", "energético"],
+                sizes: [{ name: "Regular", price: 13.00 }, { name: "Grande", price: 16.00 }]
+            },
+            {
+                id: 5,
+                name: "Licuado de Banano",
+                category: "licuados",
+                price: 13.00,
+                currency: "Q",
+                description: "Cremoso y energético licuado de banano",
+                longDescription: "Banano maduro con leche, canela y miel. Alto en potasio, perfecto para iniciar el día con energía.",
+                image: "https://images.unsplash.com/photo-1542444592-0d5997f202eb?q=80&w=697&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                color: "#FFB300",
+                icon: "FaLemon",
+                popular: false,
+                calories: 200,
+                prepTime: "4 min",
+                ingredients: ["Banano", "Leche", "Canela", "Miel"],
+                tags: ["energético", "cremoso", "nutritivo"],
+                sizes: [{ name: "Regular", price: 13.00 }, { name: "Grande", price: 16.00 }]
+            },
+            {
+                id: 6,
+                name: "Frapuccino",
+                category: "licuados",
+                price: 13.00,
+                currency: "Q",
+                description: "Delicioso frapuccino al estilo coreano",
+                longDescription: "Café espresso mezclado con leche, crema batida y jarabe de caramelo. Inspirado en las cafeterías de Seúl.",
+                image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&h=400&fit=crop",
+                color: "#5D4037",
+                icon: "FaCoffee",
+                popular: true,
+                calories: 250,
+                prepTime: "6 min",
+                ingredients: ["Café espresso", "Leche", "Crema", "Caramelo"],
+                tags: ["café", "dulce", "premium"],
+                sizes: [{ name: "Regular", price: 13.00 }, { name: "Grande", price: 16.00 }]
+            },
+            {
+                id: 7,
+                name: "Mixtos",
+                category: "licuados",
+                price: 15.00,
+                currency: "Q",
+                description: "Combinación de tus frutas favoritas",
+                longDescription: "Elige hasta 3 frutas de tu preferencia para crear tu licuado perfecto. ¡Personaliza tu bebida!",
+                image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=600&h=400&fit=crop",
+                color: "#8E24AA",
+                icon: "FaGlassMartiniAlt",
+                popular: true,
+                calories: 190,
+                prepTime: "6 min",
+                ingredients: ["Frutas a elección", "Leche", "Endulzante", "Hielo"],
+                tags: ["personalizable", "variado", "único"],
+                sizes: [{ name: "Regular", price: 15.00 }, { name: "Grande", price: 18.00 }]
+            },
+            {
+                id: 8,
+                name: "Café",
+                category: "cafe",
+                price: 8.00,
+                currency: "Q",
+                description: "Café negro recién preparado",
+                longDescription: "Café 100% guatemalteco, tostado artesanalmente. Notas de chocolate y nueces. Servido caliente y aromático.",
+                image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&h=400&fit=crop",
+                color: "#6D4C41",
+                icon: "FaMugHot",
+                popular: true,
+                calories: 5,
+                prepTime: "3 min",
+                ingredients: ["Café guatemalteco", "Agua filtrada"],
+                tags: ["intenso", "aromático", "tradicional"],
+                sizes: [{ name: "Regular", price: 8.00 }, { name: "Grande", price: 10.00 }]
+            },
+            {
+                id: 9,
+                name: "Café con Leche",
+                category: "cafe",
+                price: 10.00,
+                currency: "Q",
+                description: "Café suave con leche cremosa",
+                longDescription: "Nuestro café guatemalteco mezclado con leche vaporizada. Equilibrio perfecto entre café y cremosidad.",
+                image: "https://images.unsplash.com/photo-1534778101976-62847782c213?w=600&h=400&fit=crop",
+                color: "#8D6E63",
+                icon: "FaCoffee",
+                popular: true,
+                calories: 120,
+                prepTime: "4 min",
+                ingredients: ["Café guatemalteco", "Leche vaporizada", "Azúcar opcional"],
+                tags: ["suave", "cremoso", "clásico"],
+                sizes: [{ name: "Regular", price: 10.00 }, { name: "Grande", price: 12.00 }]
+            },
+            {
+                id: 10,
+                name: "Nachos",
+                category: "comida",
+                price: 25.00,
+                currency: "Q",
+                description: "Crujientes nachos con queso fundido",
+                longDescription: "Totopos de maíz recién horneados cubiertos con queso cheddar fundido, jalapeños, crema agria y pico de gallo.",
+                image: "https://images.unsplash.com/photo-1582169296194-e4d644c48063?w=600&h=400&fit=crop",
+                color: "#FFA500",
+                icon: "FaPizzaSlice",
+                popular: true,
+                calories: 450,
+                prepTime: "8 min",
+                ingredients: ["Totopos", "Queso cheddar", "Jalapeños", "Crema", "Pico de gallo"],
+                tags: ["crujiente", "compartir", "picante"],
+                sizes: [{ name: "Individual", price: 25.00 }, { name: "Para Compartir", price: 40.00 }]
+            },
+            {
+                id: 11,
+                name: "Tacos Sencillo",
+                category: "comida",
+                price: 12.00,
+                currency: "Q",
+                description: "2 tacos con tu proteína favorita",
+                longDescription: "Dos tortillas de maíz suaves rellenas de tu elección: pollo, carne o veggie. Servidos con cilantro, cebolla y salsa verde.",
+                image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&h=400&fit=crop",
+                color: "#8B4513",
+                icon: "FaHamburger",
+                popular: false,
+                calories: 320,
+                prepTime: "10 min",
+                ingredients: ["Tortillas de maíz", "Proteína a elección", "Cilantro", "Cebolla", "Salsa"],
+                tags: ["tradicional", "sabroso", "ligero"],
+                sizes: [{ name: "2 Tacos", price: 12.00 }]
+            },
+            {
+                id: 12,
+                name: "Tacos Dobles",
+                category: "comida",
+                price: 20.00,
+                currency: "Q",
+                description: "4 tacos con tu proteína favorita",
+                longDescription: "Cuatro tortillas de maíz suaves rellenas de tu elección: pollo, carne o veggie. Servidos con cilantro, cebolla, limón y salsa verde.",
+                image: "https://images.unsplash.com/photo-1613514785940-daed07799d9b?w=600&h=400&fit=crop",
+                color: "#A0522D",
+                icon: "FaHamburger",
+                popular: true,
+                calories: 640,
+                prepTime: "12 min",
+                ingredients: ["Tortillas de maíz", "Proteína a elección", "Cilantro", "Cebolla", "Limón", "Salsa"],
+                tags: ["abundante", "delicioso", "favorito"],
+                sizes: [{ name: "4 Tacos", price: 20.00 }]
+            },
+            {
+                id: 13,
+                name: "Quesadillas",
+                category: "comida",
+                price: 18.00,
+                currency: "Q",
+                description: "Quesadilla de queso fundido",
+                longDescription: "Tortilla de harina rellena de queso mozzarella y cheddar fundido. Opcional: pollo, carne o vegetales. Servida con crema y guacamole.",
+                image: "https://images.unsplash.com/photo-1618040996337-56904b7850b9?w=600&h=400&fit=crop",
+                color: "#DAA520",
+                icon: "FaCheese",
+                popular: true,
+                calories: 380,
+                prepTime: "7 min",
+                ingredients: ["Tortilla de harina", "Queso mozzarella", "Queso cheddar", "Opcional: proteína"],
+                tags: ["queso", "caliente", "reconfortante"],
+                sizes: [{ name: "Queso", price: 18.00 }, { name: "Con Proteína", price: 23.00 }]
+            },
+            {
+                id: 14,
+                name: "Crepas",
+                category: "postres",
+                price: 22.00,
+                currency: "Q",
+                description: "Deliciosas crepas dulces",
+                longDescription: "Crepas francesas suaves y delgadas. Rellenas de Nutella, fresas frescas y plátano. Cubiertas con azúcar glass y crema batida.",
+                image: "https://images.unsplash.com/photo-1519676867240-f03562e64548?w=600&h=400&fit=crop",
+                color: "#F4A460",
+                icon: "FaIceCream",
+                popular: true,
+                calories: 420,
+                prepTime: "10 min",
+                ingredients: ["Masa de crepa", "Nutella", "Fresas", "Plátano", "Azúcar glass", "Crema"],
+                tags: ["dulce", "indulgente", "francés"],
+                sizes: [{ name: "Individual", price: 22.00 }, { name: "Doble", price: 35.00 }]
+            }
+        ];
+
+        function formatProductForSheet(product) {
+            return [
+                product.id,
+                product.name,
+                product.category,
+                product.price,
+                product.currency || 'Q',
+                product.description,
+                product.longDescription,
+                product.image,
+                product.color,
+                product.icon,
+                product.popular ? 'true' : 'false',
+                product.calories,
+                product.prepTime,
+                JSON.stringify(product.ingredients || []),
+                JSON.stringify(product.tags || []),
+                JSON.stringify(product.sizes || [])
+            ];
+        }
+
+        async function migrateProducts() {
+            const btn = document.getElementById('migrateBtn');
+            const status = document.getElementById('status');
+            const progress = document.getElementById('progress');
+            const progressBar = document.getElementById('progressBar');
+
+            btn.disabled = true;
+            status.style.display = 'block';
+            status.className = 'loading';
+            progress.style.display = 'block';
+
+            let successCount = 0;
+            let errorCount = 0;
+
+            for (let i = 0; i < products.length; i++) {
+                const product = products[i];
+                const percentage = Math.round(((i + 1) / products.length) * 100);
+
+                progressBar.style.width = percentage + '%';
+                progressBar.textContent = percentage + '%';
+
+                status.innerHTML = `⏳ Migrando producto ${i + 1} de ${products.length}: <strong>${product.name}</strong>...`;
+
+                try {
+                    await fetch(APPS_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            action: 'addProduct',
+                            product: formatProductForSheet(product)
+                        })
+                    });
+
+                    successCount++;
+
+                    // Pequeña pausa entre requests para no sobrecargar
+                    await new Promise(resolve => setTimeout(resolve, 500));
+
+                } catch (error) {
+                    console.error(`Error al migrar ${product.name}:`, error);
+                    errorCount++;
+                }
+            }
+
+            // Resultado final
+            if (errorCount === 0) {
+                status.className = 'success';
+                status.innerHTML = `
+                    ✅ <strong>¡Migración Completada!</strong><br><br>
+                    • ${successCount} productos agregados exitosamente<br>
+                    • 0 errores<br><br>
+                    Abre tu <a href="https://docs.google.com/spreadsheets/d/10GzvoQx7mBNR_HFLSxvzFOBa5t-Zk77VRdilgHekS6Y/edit" target="_blank" style="color: #2196F3; font-weight: bold;">Google Sheet</a> para verificar los datos.
+                `;
+            } else {
+                status.className = 'error';
+                status.innerHTML = `
+                    ⚠️ <strong>Migración Completada con Errores</strong><br><br>
+                    • ${successCount} productos agregados<br>
+                    • ${errorCount} errores<br><br>
+                    Revisa la consola del navegador (F12) para más detalles.
+                `;
+            }
+
+            btn.disabled = false;
+            btn.textContent = '✅ Migración Completada';
+        }
+    </script>
+</body>
+</html>

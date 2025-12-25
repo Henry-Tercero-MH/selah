@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Colores principales - Paleta Cafetería Profesional */
+  --color-primary: #5D4037;        /* Café espresso oscuro */
+  --color-primary-dark: #3E2723;   /* Café tostado muy oscuro */
+  --color-primary-light: #8D6E63;  /* Café con leche */
+  --color-primary-medium: #6D4C41; /* Café medio */
+
+  --color-secondary: #A1887F;      /* Capuchino suave */
+  --color-secondary-dark: #8D6E63; /* Moca oscuro */
+  --color-secondary-light: #BCAAA4; /* Latte claro */
+
+  --color-accent: #EFEBE9;         /* Crema de café muy suave */
+  --color-accent-warm: #D7CCC8;    /* Beige cálido */
+
+  /* Colores de texto */
+  --color-text-primary: #3E2723;   /* Café muy oscuro para texto */
+  --color-text-secondary: #5D4037; /* Café oscuro */
+  --color-text-light: #8D6E63;     /* Café claro */
+  --color-text-white: #FFFFFF;     /* Blanco */
+
+  /* Colores de fondo */
+  --color-bg-main: #F5F5F5;        /* Fondo gris muy claro */
+  --color-bg-card: #FFFFFF;        /* Blanco para tarjetas */
+  --color-bg-overlay: rgba(62, 39, 35, 0.95); /* Café oscuro con transparencia */
+
+  /* Colores para categorías - Tonos café y tierra */
+  --color-fresa: #D84315;          /* Terracota */
+  --color-papaya: #FF6F00;         /* Naranja quemado */
+  --color-melon: #7CB342;          /* Verde oliva */
+  --color-pina: #FFA000;           /* Ámbar */
+  --color-banana: #FFB300;         /* Amarillo dorado */
+  --color-mixto: #8E24AA;          /* Púrpura oscuro */
+
+  /* Espaciados */
+  --spacing-xs: 0.5rem;    /* 8px */
+  --spacing-sm: 1rem;      /* 16px */
+  --spacing-md: 1.5rem;    /* 24px */
+  --spacing-lg: 2rem;      /* 32px */
+  --spacing-xl: 3rem;      /* 48px */
+  --spacing-2xl: 4rem;     /* 64px */
+
+  /* Bordes redondeados */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+
+  /* Sombras suaves y profesionales */
+  --shadow-sm: 0 2px 4px rgba(62, 39, 35, 0.1);
+  --shadow-md: 0 4px 12px rgba(62, 39, 35, 0.15);
+  --shadow-lg: 0 8px 24px rgba(62, 39, 35, 0.2);
+  --shadow-xl: 0 12px 32px rgba(62, 39, 35, 0.25);
+
+  /* Transiciones */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+
+  /* Tamaños de fuente */
+  --font-xs: 0.75rem;      /* 12px */
+  --font-sm: 0.875rem;     /* 14px */
+  --font-base: 1rem;       /* 16px */
+  --font-lg: 1.125rem;     /* 18px */
+  --font-xl: 1.25rem;      /* 20px */
+  --font-2xl: 1.5rem;      /* 24px */
+  --font-3xl: 2rem;        /* 32px */
+  --font-4xl: 2.5rem;      /* 40px */
+  --font-5xl: 3rem;        /* 48px */
+}
+
+/* Reset y estilos base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--color-text-primary);
+  background: var(--color-bg-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+}
+
+/* Utilidades personalizadas - Café Profesional */
+@layer utilities {
+  .text-gradient-pink {
+    background: linear-gradient(135deg, #5D4037 0%, #8D6E63 50%, #A1887F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-korean {
+    background: linear-gradient(135deg, #EFEBE9 0%, #F5F5F5 100%);
+  }
+
+  .bg-gradient-soft {
+    background: linear-gradient(180deg, #F5F5F5 0%, #EFEBE9 100%);
+  }
+
+  .shadow-korean {
+    box-shadow: var(--shadow-md);
+  }
+
+  .transition-korean {
+    transition: all var(--transition-normal);
+  }
+
+  .hover-lift {
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Componentes base - Café Profesional */
+@layer components {
+  .btn-korean {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    transition: all var(--transition-normal);
+    cursor: pointer;
+    border: none;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: var(--color-text-white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .card-korean {
+    background: var(--color-bg-card);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+    border: 1px solid var(--color-accent);
+  }
+
+  .card-korean:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-secondary-light);
+    transform: translateY(-2px);
+  }
+}
+
+/* Animaciones personalizadas */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-dark);
+}

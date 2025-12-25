@@ -1,0 +1,326 @@
+{
+  "categories": [
+    {
+      "id": "licuados",
+      "name": "Deliciosos Licuados",
+      "icon": "FaCocktail",
+      "description": "Bebidas naturales y refrescantes",
+      "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop"
+    },
+    {
+      "id": "cafe",
+      "name": "Café & Bebidas Calientes",
+      "icon": "FaCoffee",
+      "description": "Café recién hecho y especialidades",
+      "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop"
+    },
+    {
+      "id": "comida",
+      "name": "Alimentos",
+      "icon": "FaUtensils",
+      "description": "Antojitos y platillos deliciosos",
+      "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop"
+    },
+    {
+      "id": "postres",
+      "name": "Postres & Dulces",
+      "icon": "FaIceCream",
+      "description": "Delicias dulces para consentirte",
+      "image": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=300&fit=crop"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Licuado de Fresa",
+      "category": "licuados",
+      "price": 15.00,
+      "currency": "Q",
+      "description": "Delicioso licuado de fresa fresca y cremoso",
+      "longDescription": "Preparado con fresas frescas de temporada, leche y un toque de azúcar natural. Rico en vitamina C y antioxidantes.",
+      "image": "https://images.unsplash.com/photo-1589733955941-5eeaf752f6dd?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "color": "#D84315",
+      "icon": "FaStrawberry",
+      "popular": true,
+      "calories": 180,
+      "prepTime": "5 min",
+      "ingredients": ["Fresas frescas", "Leche", "Azúcar", "Hielo"],
+      "tags": ["frutal", "cremoso", "vitaminas"],
+      "sizes": [
+        { "name": "Regular", "price": 15.00 },
+        { "name": "Grande", "price": 18.00 }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Licuado de Papaya",
+      "category": "licuados",
+      "price": 13.00,
+      "currency": "Q",
+      "description": "Refrescante licuado de papaya natural",
+      "longDescription": "Papaya fresca guatemalteca mezclada con leche y miel. Excelente para la digestión y rico en vitamina A.",
+      "image": "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?q=80&w=685&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "color": "#FF6F00",
+      "icon": "FaLeaf",
+      "popular": false,
+      "calories": 150,
+      "prepTime": "4 min",
+      "ingredients": ["Papaya fresca", "Leche", "Miel", "Hielo"],
+      "tags": ["digestivo", "natural", "suave"],
+      "sizes": [
+        { "name": "Regular", "price": 13.00 },
+        { "name": "Grande", "price": 16.00 }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Licuado de Melón",
+      "category": "licuados",
+      "price": 13.00,
+      "currency": "Q",
+      "description": "Suave y dulce licuado de melón",
+      "longDescription": "Melón maduro con un toque de limón y menta. Perfecto para hidratarse en días calurosos.",
+      "image": "https://images.unsplash.com/photo-1660305461151-fe400e7bbede?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "color": "#7CB342",
+      "icon": "FaSeedling",
+      "popular": false,
+      "calories": 140,
+      "prepTime": "4 min",
+      "ingredients": ["Melón", "Limón", "Menta", "Hielo"],
+      "tags": ["refrescante", "ligero", "hidratante"],
+      "sizes": [
+        { "name": "Regular", "price": 13.00 },
+        { "name": "Grande", "price": 16.00 }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Licuado de Piña",
+      "category": "licuados",
+      "price": 13.00,
+      "currency": "Q",
+      "description": "Tropical y refrescante licuado de piña",
+      "longDescription": "Piña tropical guatemalteca con coco rallado y un toque de vainilla. Sabor caribeño irresistible.",
+      "image": "https://images.unsplash.com/photo-1666181767084-91e0cd358adf?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "color": "#FFA000",
+      "icon": "FaAppleAlt",
+      "popular": false,
+      "calories": 170,
+      "prepTime": "5 min",
+      "ingredients": ["Piña fresca", "Coco", "Vainilla", "Hielo"],
+      "tags": ["tropical", "exótico", "energético"],
+      "sizes": [
+        { "name": "Regular", "price": 13.00 },
+        { "name": "Grande", "price": 16.00 }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Licuado de Banano",
+      "category": "licuados",
+      "price": 13.00,
+      "currency": "Q",
+      "description": "Cremoso y energético licuado de banano",
+      "longDescription": "Banano maduro con leche, canela y miel. Alto en potasio, perfecto para iniciar el día con energía.",
+      "image": "https://images.unsplash.com/photo-1542444592-0d5997f202eb?q=80&w=697&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "color": "#FFB300",
+      "icon": "FaLemon",
+      "popular": false,
+      "calories": 200,
+      "prepTime": "4 min",
+      "ingredients": ["Banano", "Leche", "Canela", "Miel"],
+      "tags": ["energético", "cremoso", "nutritivo"],
+      "sizes": [
+        { "name": "Regular", "price": 13.00 },
+        { "name": "Grande", "price": 16.00 }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Frapuccino",
+      "category": "licuados",
+      "price": 13.00,
+      "currency": "Q",
+      "description": "Delicioso frapuccino al estilo coreano",
+      "longDescription": "Café espresso mezclado con leche, crema batida y jarabe de caramelo. Inspirado en las cafeterías de Seúl.",
+      "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&h=400&fit=crop",
+      "color": "#5D4037",
+      "icon": "FaCoffee",
+      "popular": true,
+      "calories": 250,
+      "prepTime": "6 min",
+      "ingredients": ["Café espresso", "Leche", "Crema", "Caramelo"],
+      "tags": ["café", "dulce", "premium"],
+      "sizes": [
+        { "name": "Regular", "price": 13.00 },
+        { "name": "Grande", "price": 16.00 }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Mixtos",
+      "category": "licuados",
+      "price": 15.00,
+      "currency": "Q",
+      "description": "Combinación de tus frutas favoritas",
+      "longDescription": "Elige hasta 3 frutas de tu preferencia para crear tu licuado perfecto. ¡Personaliza tu bebida!",
+      "image": "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=600&h=400&fit=crop",
+      "color": "#8E24AA",
+      "icon": "FaGlassMartiniAlt",
+      "popular": true,
+      "calories": 190,
+      "prepTime": "6 min",
+      "ingredients": ["Frutas a elección", "Leche", "Endulzante", "Hielo"],
+      "tags": ["personalizable", "variado", "único"],
+      "sizes": [
+        { "name": "Regular", "price": 15.00 },
+        { "name": "Grande", "price": 18.00 }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Café",
+      "category": "cafe",
+      "price": 8.00,
+      "currency": "Q",
+      "description": "Café negro recién preparado",
+      "longDescription": "Café 100% guatemalteco, tostado artesanalmente. Notas de chocolate y nueces. Servido caliente y aromático.",
+      "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&h=400&fit=crop",
+      "color": "#6D4C41",
+      "icon": "FaMugHot",
+      "popular": true,
+      "calories": 5,
+      "prepTime": "3 min",
+      "ingredients": ["Café guatemalteco", "Agua filtrada"],
+      "tags": ["intenso", "aromático", "tradicional"],
+      "sizes": [
+        { "name": "Regular", "price": 8.00 },
+        { "name": "Grande", "price": 10.00 }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Café con Leche",
+      "category": "cafe",
+      "price": 10.00,
+      "currency": "Q",
+      "description": "Café suave con leche cremosa",
+      "longDescription": "Nuestro café guatemalteco mezclado con leche vaporizada. Equilibrio perfecto entre café y cremosidad.",
+      "image": "https://images.unsplash.com/photo-1534778101976-62847782c213?w=600&h=400&fit=crop",
+      "color": "#8D6E63",
+      "icon": "FaCoffee",
+      "popular": true,
+      "calories": 120,
+      "prepTime": "4 min",
+      "ingredients": ["Café guatemalteco", "Leche vaporizada", "Azúcar opcional"],
+      "tags": ["suave", "cremoso", "clásico"],
+      "sizes": [
+        { "name": "Regular", "price": 10.00 },
+        { "name": "Grande", "price": 12.00 }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Nachos",
+      "category": "comida",
+      "price": 25.00,
+      "currency": "Q",
+      "description": "Crujientes nachos con queso fundido",
+      "longDescription": "Totopos de maíz recién horneados cubiertos con queso cheddar fundido, jalapeños, crema agria y pico de gallo.",
+      "image": "https://images.unsplash.com/photo-1582169296194-e4d644c48063?w=600&h=400&fit=crop",
+      "color": "#FFA500",
+      "icon": "FaPizzaSlice",
+      "popular": true,
+      "calories": 450,
+      "prepTime": "8 min",
+      "ingredients": ["Totopos", "Queso cheddar", "Jalapeños", "Crema", "Pico de gallo"],
+      "tags": ["crujiente", "compartir", "picante"],
+      "sizes": [
+        { "name": "Individual", "price": 25.00 },
+        { "name": "Para Compartir", "price": 40.00 }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Tacos Sencillo",
+      "category": "comida",
+      "price": 12.00,
+      "currency": "Q",
+      "description": "2 tacos con tu proteína favorita",
+      "longDescription": "Dos tortillas de maíz suaves rellenas de tu elección: pollo, carne o veggie. Servidos con cilantro, cebolla y salsa verde.",
+      "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&h=400&fit=crop",
+      "color": "#8B4513",
+      "icon": "FaHamburger",
+      "popular": false,
+      "calories": 320,
+      "prepTime": "10 min",
+      "ingredients": ["Tortillas de maíz", "Proteína a elección", "Cilantro", "Cebolla", "Salsa"],
+      "tags": ["tradicional", "sabroso", "ligero"],
+      "sizes": [
+        { "name": "2 Tacos", "price": 12.00 }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Tacos Dobles",
+      "category": "comida",
+      "price": 20.00,
+      "currency": "Q",
+      "description": "4 tacos con tu proteína favorita",
+      "longDescription": "Cuatro tortillas de maíz suaves rellenas de tu elección: pollo, carne o veggie. Servidos con cilantro, cebolla, limón y salsa verde.",
+      "image": "https://images.unsplash.com/photo-1613514785940-daed07799d9b?w=600&h=400&fit=crop",
+      "color": "#A0522D",
+      "icon": "FaHamburger",
+      "popular": true,
+      "calories": 640,
+      "prepTime": "12 min",
+      "ingredients": ["Tortillas de maíz", "Proteína a elección", "Cilantro", "Cebolla", "Limón", "Salsa"],
+      "tags": ["abundante", "delicioso", "favorito"],
+      "sizes": [
+        { "name": "4 Tacos", "price": 20.00 }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Quesadillas",
+      "category": "comida",
+      "price": 18.00,
+      "currency": "Q",
+      "description": "Quesadilla de queso fundido",
+      "longDescription": "Tortilla de harina rellena de queso mozzarella y cheddar fundido. Opcional: pollo, carne o vegetales. Servida con crema y guacamole.",
+      "image": "https://images.unsplash.com/photo-1618040996337-56904b7850b9?w=600&h=400&fit=crop",
+      "color": "#DAA520",
+      "icon": "FaCheese",
+      "popular": true,
+      "calories": 380,
+      "prepTime": "7 min",
+      "ingredients": ["Tortilla de harina", "Queso mozzarella", "Queso cheddar", "Opcional: proteína"],
+      "tags": ["queso", "caliente", "reconfortante"],
+      "sizes": [
+        { "name": "Queso", "price": 18.00 },
+        { "name": "Con Proteína", "price": 23.00 }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Crepas",
+      "category": "postres",
+      "price": 22.00,
+      "currency": "Q",
+      "description": "Deliciosas crepas dulces",
+      "longDescription": "Crepas francesas suaves y delgadas. Rellenas de Nutella, fresas frescas y plátano. Cubiertas con azúcar glass y crema batida.",
+      "image": "https://images.unsplash.com/photo-1519676867240-f03562e64548?w=600&h=400&fit=crop",
+      "color": "#F4A460",
+      "icon": "FaIceCream",
+      "popular": true,
+      "calories": 420,
+      "prepTime": "10 min",
+      "ingredients": ["Masa de crepa", "Nutella", "Fresas", "Plátano", "Azúcar glass", "Crema"],
+      "tags": ["dulce", "indulgente", "francés"],
+      "sizes": [
+        { "name": "Individual", "price": 22.00 },
+        { "name": "Doble", "price": 35.00 }
+      ]
+    }
+  ]
+}
